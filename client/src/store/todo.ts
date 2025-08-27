@@ -1,4 +1,5 @@
 import { client } from "@/lib/client";
+import type { TodoTypes } from "@/types/todo";
 import { create } from "zustand";
 
 type newTaskData = {
@@ -7,7 +8,7 @@ type newTaskData = {
 };
 
 type TodoStoreArgs = {
-	todos: any;
+	todos: TodoTypes[];
 	getTodo: () => Promise<void>;
 	createTodo: (newTask: newTaskData) => Promise<void>;
 	deleteTodo: (taskId: any) => Promise<void>;
@@ -15,25 +16,24 @@ type TodoStoreArgs = {
 };
 
 export const useTodoStore = create<TodoStoreArgs>((set) => ({
-	todos: null,
+	todos: [],
 	getTodo: async () => {
 		try {
 			// const todoData = await api.get("/all-todos");
 			const res = await client.api["all-todos"].$get();
 			const todoData = await res.json();
-			set({ todos: todoData });
+			set({ todos: Array.isArray(todoData) ? todoData : [] });
 		} catch (error) {
 			console.error("Error fetching todos:", error);
 		}
 	},
 	createTodo: async (newTask: newTaskData) => {
 		try {
-			const newTodo = await client.api["add-todo"].$post({
+			const res = await client.api["add-todo"].$post({
 				json: newTask,
 			});
-			const res = await newTodo.json();
-			console.log(res[0]);
-			return res[0];
+			const data = await res.json();
+			return data[0];
 		} catch (error) {
 			console.error("Error creating todo:", error);
 		}
@@ -59,8 +59,9 @@ export const useTodoStore = create<TodoStoreArgs>((set) => ({
 				param: { id: taskId },
 				json: updateData,
 			});
-			const data = await res.json();
-			return data[0];
+			const data: TodoTypes[] = await res.json();
+			const updated = data[0];
+			return updated;
 		} catch (error) {}
 	},
 }));

@@ -40,7 +40,7 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState, type ChangeEvent} from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { useTodoStore } from "@/store/todo";
 import { useSession } from "@/lib/auth-client";
 import { userTodoStore } from "@/store/user";
@@ -173,7 +173,9 @@ const Home = () => {
 								</div>
 							</CardHeader>
 							<CardContent>
-								<CardTitle>{todo.task_name}</CardTitle>
+								<CardTitle className="mb-3 text-lg">
+									{todo.task_name}
+								</CardTitle>
 								<p className="text-sm text-[#337499] leading-relaxed">
 									{todo.description}
 								</p>
@@ -481,6 +483,9 @@ const Home = () => {
 										</div>
 									</CardHeader>
 									<CardContent>
+										<CardTitle className="mb-3 text-lg">
+											{todo.task_name}
+										</CardTitle>
 										<p className="text-sm text-[#337499] leading-relaxed">
 											{todo.description}
 										</p>
@@ -740,6 +745,9 @@ const Home = () => {
 									</div>
 								</CardHeader>
 								<CardContent>
+									<CardTitle className="mb-3 text-lg">
+										{todo.task_name}
+									</CardTitle>
 									<p className="text-sm text-[#337499] leading-relaxed">
 										{todo.description}
 									</p>

@@ -13,13 +13,27 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { userTodoStore } from "@/store/user";
 import { Link, useNavigate } from "react-router-dom";
-import CreateTask from "./create-task";
+import CreateTask from "./Create-Task";
+import EditProfile from "./Edit-Profile";
+import { useEffect } from "react";
+import { useSession } from "@/lib/auth-client";
 
 const Navbar = () => {
 	const { theme, setTheme } = useTheme();
-	const { signOutUser, user } = userTodoStore();
+	const { signOutUser, setUser, user } = userTodoStore();
 	const navigate = useNavigate();
 
+	const { data: session } = useSession();
+
+	useEffect(() => {
+		if (session?.user) {
+			setUser(session.user);
+		} else {
+			setUser(null);
+		}
+	}, [session, setUser]);
+
+	if (!user) return null;
 	return (
 		<nav className="h-16 bg-background border-b">
 			<div className="h-full flex items-center justify-between max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -69,8 +83,8 @@ const Navbar = () => {
 									My Account
 								</DropdownMenuLabel>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem>
-									<User className="h-4 w-4" /> Profile
+								<DropdownMenuItem asChild>
+									<EditProfile />
 								</DropdownMenuItem>
 								<DropdownMenuItem>
 									<Settings className="h-4 w-4" /> Settings

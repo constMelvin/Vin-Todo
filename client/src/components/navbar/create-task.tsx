@@ -19,6 +19,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTodoStore } from "@/store/todo";
 import { toast } from "sonner";
+import { Separator } from "../ui/separator";
 
 const TaskSchema = z.object({
 	task_name: z.string().min(1, "Task name are required."),
@@ -67,7 +68,7 @@ const CreateTask = () => {
 							list.
 						</DialogDescription>
 					</DialogHeader>
-
+					<Separator className="my-5" />
 					<div className="grid gap-4">
 						<div className="grid gap-3">
 							<Label htmlFor="name-1">Task Name</Label>
@@ -92,19 +93,21 @@ const CreateTask = () => {
 						</div>
 					</div>
 
-					<DialogFooter className="!flex-col">
+					<DialogFooter className="!flex-col mt-5">
 						<Button
 							type="submit"
 							className="border-0 cursor-pointer bg-[#1587e5] hover:bg-[#1587e5]/90 w-full"
 							disabled={isSubmitting}
 						>
 							{isSubmitting ? (
-								<span className="flex items-center">
+								<span className="flex items-center text-black dark:text-white">
 									<LoaderIcon className="animate-spin mr-2" />
 									Creating Task...
 								</span>
 							) : (
-								"Create Task"
+								<span className="flex items-center text-black dark:text-white">
+									Create Task
+								</span>
 							)}
 						</Button>
 						<DialogClose asChild>

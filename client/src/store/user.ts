@@ -20,7 +20,8 @@ type UserStoreArgs = {
 	signUpUser: (newUserData: any) => Promise<void>;
 	signOutUser: () => Promise<void>;
 	getUserInfo: (userId: any) => Promise<void>;
-	// signUpUser: () => any
+	signInWithSocial: () => Promise<void>;
+	setUser: (user: any) => any;
 };
 
 export const userTodoStore = create(
@@ -29,6 +30,7 @@ export const userTodoStore = create(
 			user: null,
 			userInfo: null,
 			error: null,
+			setUser: (user) => set({ user }),
 			signInUser: async (userData: UserData) => {
 				try {
 					set({ error: null, user: null });
@@ -65,6 +67,13 @@ export const userTodoStore = create(
 				console.log(res.data);
 
 				set({ userInfo: res.data, error: res.error });
+			},
+			signInWithSocial: async () => {
+				await authClient.signIn.social({
+					provider: "google",
+					callbackURL: "http://localhost:5173/",
+					// disableRedirect: true,
+				});
 			},
 		}),
 		{ name: "user-todo-store" }

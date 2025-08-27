@@ -29,6 +29,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { userTodoStore } from "@/store/user";
 import { toast } from "sonner";
+import { signIn } from "@/lib/auth-client";
 
 const SignInSchema = z.object({
 	email: z.email("Invalid Email Address"),
@@ -39,7 +40,7 @@ const SignInSchema = z.object({
 type SignInFormFields = z.infer<typeof SignInSchema>;
 
 const SignIn = () => {
-	const { signInUser } = userTodoStore((state) => state);
+	const { signInUser, signInWithSocial } = userTodoStore((state) => state);
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const navigate = useNavigate();
 
@@ -211,6 +212,9 @@ const SignIn = () => {
 					<Button
 						variant={"outline"}
 						className="w-full gap-3 cursor-pointer"
+						onClick={async () => {
+							await signInWithSocial();
+						}}
 					>
 						<FcGoogle />
 						Continue with Google
