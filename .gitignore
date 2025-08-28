@@ -19,6 +19,7 @@ backend/node_modules
 .env.production
 backend/.env.*
 client/.env.*
+backend/src/env.ts
 
 # logs
 logs/
