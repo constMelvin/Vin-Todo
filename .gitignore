@@ -13,13 +13,11 @@ node_modules/
 client/node_modules
 backend/node_modules
 
-
 # env
 .env
 .env.production
 backend/.env.*
 client/.env.*
-backend/src/env.ts
 
 # logs
 logs/
