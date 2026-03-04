@@ -29,7 +29,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { userTodoStore } from "@/store/user";
 import { toast } from "sonner";
-import { signIn } from "@/lib/auth-client";
 
 const SignInSchema = z.object({
 	email: z.email("Invalid Email Address"),
