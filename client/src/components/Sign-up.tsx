@@ -69,8 +69,12 @@ const SignUp = () => {
 
 	const submitForm = (e: MouseEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setValue((prev) => ({
+			...prev,
+			password: confirmPassword,
+		}));
 
-		if (!value.email || !value.password || !password) {
+		if (!value.email || !value.password || !confirmPassword) {
 			alert("Please fill in all fields.");
 			return;
 		}
@@ -180,7 +184,7 @@ const SignUp = () => {
 							>
 								<LockIcon className="h-5 w-5 text-muted-foreground" />
 								<Input
-									type={password ? "text" : "password"}
+									type={isVisible ? "text" : "password"}
 									placeholder="Password"
 									className="border-0 focus-visible:ring-0 shadow-none"
 									onChange={(
@@ -274,7 +278,7 @@ const SignUp = () => {
 							<div className="relative flex items-center rounded-md border focus-within:ring-1 focus-within:ring-ring px-2">
 								<LockIcon className="h-5 w-5 text-muted-foreground" />
 								<Input
-									value={value.password}
+									value={confirmPassword}
 									type={
 										isConfirmVisible ? "text" : "password"
 									}
@@ -282,12 +286,7 @@ const SignUp = () => {
 									className="border-0 focus-visible:ring-0 shadow-none"
 									onChange={(
 										e: ChangeEvent<HTMLInputElement>
-									) =>
-										setValue({
-											...value,
-											password: e.target.value,
-										})
-									}
+									) => setConfirmPassword(e.target.value)}
 								/>
 								<button
 									onClick={toggleConfirmVisibility}
@@ -301,21 +300,19 @@ const SignUp = () => {
 								</button>
 							</div>
 
-							<div className="mt-1">
-								{confirmPassword.length > 0 && (
-									<p
-										className={`text-sm ${
-											confirmPassword === password
-												? "text-green-600"
-												: "text-red-600"
-										}`}
-									>
-										{confirmPassword === password
-											? "Passwords match"
-											: "Passwords do not match"}
-									</p>
-								)}
-							</div>
+							{confirmPassword && (
+								<p
+									className={`mt-1 text-sm ${
+										confirmPassword === password
+											? "text-green-600"
+											: "text-red-600"
+									}`}
+								>
+									{confirmPassword === password
+										? "Passwords match"
+										: "Passwords do not match"}
+								</p>
+							)}
 						</div>
 						<Button
 							type="submit"
